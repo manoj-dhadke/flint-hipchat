@@ -35,21 +35,20 @@ http_body = { "color" => color, "message" => message, "notify" => notify, "messa
 
 @log.trace("Calling Hipchat API...")
 hipchat_response = @call.connector(http_connector)
-                    .set("method","post")                    #HTTP request method
+                    .set("method","post")   #HTTP request method
                     .set("url",send_url)
                     .set("body",http_body.to_json)
-                    .set("headers",["Cache-Control:no-cache","Content-Type: application/json"])                         #HTTP request headers
-                    .set("timeout",10000)
+                    .set("headers",["Cache-Control:no-cache","Content-Type: application/json"])  #HTTP request headers
+                    .set("timeout",10000) #Execution time of the Flintbit in milliseconds
                     .sync
-                    #.timeout(10000)                                                   #Execution time of the Flintbit in milliseconds
 
 #HTTP Connector Response Meta Parameters
-response_exitcode = hipchat_response.exitcode                                              #Exit status code
-response_message = hipchat_response.message                                                #Execution status message
+response_exitcode = hipchat_response.exitcode   #Exit status code
+response_message = hipchat_response.message     #Execution status message
 
 #HTTP Connector Response Parameters
-response_body = hipchat_response.get("body")                                               #Response Body
-response_headers = hipchat_response.get("headers")                                         #Response Headers
+response_body = hipchat_response.get("body")       #Response Body
+response_headers = hipchat_response.get("headers") #Response Headers
 
 if response_exitcode == 0
     @log.info('Success in executing HTTP Connector where, exitcode ::'+response_exitcode.to_s+' | message :: '+response_message)
